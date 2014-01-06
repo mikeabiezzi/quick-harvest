@@ -11,7 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140103194542) do
+ActiveRecord::Schema.define(version: 20140106171018) do
+
+  create_table "project_mappings", force: true do |t|
+    t.integer  "user_setting_id",     null: false
+    t.string   "external_project_id", null: false
+    t.string   "harvest_project_id",  null: false
+    t.string   "harvest_task_id",     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_settings", force: true do |t|
+    t.integer  "user_id",                                       null: false
+    t.string   "tracker_full_name",                             null: false
+    t.string   "tracker_api_token",                             null: false
+    t.string   "harvest_organization",                          null: false
+    t.string   "harvest_username",                              null: false
+    t.string   "harvest_password",                              null: false
+    t.string   "output",               default: "multi_line",   null: false
+    t.string   "style",                default: "story_number", null: false
+    t.boolean  "comma_deliminated",    default: false,          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

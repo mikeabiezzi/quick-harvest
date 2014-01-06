@@ -19,15 +19,11 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Quick Harvest</a>
+        <a class="navbar-brand" href="/">Quick Harvest</a>
       </div>
       <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-          <% if user_signed_in? %>
-            <li class="active"><a href="#">Time</a></li>
-          <% end %>
-        </ul>
         <ul class="nav navbar-nav navbar-right">
+          <li><%= render 'devise/menu/settings' %></li>
           <li><%= render 'devise/menu/registration_items' %></li>
           <li><%= render 'devise/menu/login_items' %></li>
         </ul>

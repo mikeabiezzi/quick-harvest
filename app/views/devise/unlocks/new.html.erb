@@ -7,11 +7,11 @@
       <%= f.error_notification %>
       <%= f.full_error :unlock_token %>
 
-      <div class="form-inputs">
+      <div class="form-group">
         <%= f.input :email, :required => true, :autofocus => true %>
       </div>
 
-      <div class="form-actions">
+      <div class="form-group">
         <%= f.button :submit, "Resend unlock instructions" %>
       </div>
     <% end %>
