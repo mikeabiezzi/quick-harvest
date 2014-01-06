@@ -1,20 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>QuickHarvest</title>
+  <title>Quick Harvest</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
+  <div class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Quick Harvest</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <% if user_signed_in? %>
+            <li class="active"><a href="#">Time</a></li>
+          <% end %>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><%= render 'devise/menu/registration_items' %></li>
+          <li><%= render 'devise/menu/login_items' %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-  <ul class="hmenu">
-    <%= render 'devise/menu/registration_items' %>
-    <%= render 'devise/menu/login_items' %>
-  </ul>
+  <% if(notice || alert) %>
+    <div class='container'>
+      <% if(notice) %>
+        <p class="alert alert-success"><%= notice %></p>
+      <% end %>
+      <% if(alert) %>
+        <p class="alert alert-danger"><%= alert %></p>
+      <% end %>
+    </div>
+  <% end %>
 
-  <%= yield %>
+  <div class='container'>
+    <%= yield %>
+  </div>
 </body>
 </html>
