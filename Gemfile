@@ -48,6 +48,8 @@ gem 'haml-rails'
 gem 'sendgrid'
 gem 'simple_form'
 gem 'attr_encrypted'
+gem 'pivotal-tracker-api'
+gem 'harvested'
 
 group :development do
   gem 'better_errors'

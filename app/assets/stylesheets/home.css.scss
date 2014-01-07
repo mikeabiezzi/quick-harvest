@@ -1,3 +1,42 @@
-// Place all the styles related to the home controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.calendar-week {
+  width: 100%;
+
+  td {
+    width: 14.3%;
+    padding: 0 0 3% 0;
+    text-align: center;
+
+    &.today {
+      color: darkblue;
+    }
+
+    .today {
+      font-size: .8em;
+      font-weight: bold;
+      height: .8em;
+    }
+
+    &.na {
+      color: lightgrey;
+    }
+
+    .number {
+      font-size: 2em;
+      font-weight: bold;
+      margin-top: 1%;
+    }
+  }
+}
+
+.no-stories {
+  color: lightgrey;
+}
+.weekday {
+  color: grey;
+}
+
+.stories {
+  .name {
+    font-weight: bold;
+  }
+}

@@ -1,4 +1,6 @@
 class UserSettingsController < ApplicationController
+  before_filter :authenticate_user!
+
   def new
     settings = prep_settings(UserSetting.new)
 

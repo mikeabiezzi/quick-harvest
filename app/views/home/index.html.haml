@@ -1,2 +1,27 @@
-%h1 Home#index
-%p Find me in app/views/home/index.html.haml
+.row
+  .col-md-2.col-sm-0.col-xs-0
+  .col-md-8.col-sm-12.col-xs-12
+    %h1= @billing_period.target_date.strftime("%B")
+    - @billing_period.past_and_present_weeks.each do |week|
+      %table.table-bordered.calendar-week
+        %tbody
+          %tr
+            - week.each do |day|
+              - cell_class = "na" if !@billing_period.past_or_present_within_period?(day)
+              - cell_class = "today" if day == Date.today
+              %td{ :class => cell_class }
+                .today= "Today" if day == Date.today
+                .number= day.strftime("%e")
+                .day= day.strftime("%a")
+      - @billing_period.past_and_present_days(week).each do |day|
+        %h4.weekday= day.strftime("%A")
+        %ul.list-group.stories
+          - stories = @stories.select{ |s| s[:date] == day }
+          - if stories.present?
+            - stories.each do |story|
+              %li.list-group-item
+                %span.id= story[:id]
+                %span.name= story[:name]
+          - else
+            %li.list-group-item.no-stories No stories found
+  .col-md-2.col-sm-0.col-xs-0
