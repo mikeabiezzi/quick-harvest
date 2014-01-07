@@ -47,6 +47,7 @@ gem 'devise'
 gem 'haml-rails'
 gem 'sendgrid'
 gem 'simple_form'
+gem 'attr_encrypted'
 
 group :development do
   gem 'better_errors'
