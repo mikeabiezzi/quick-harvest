@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-2 col-sm-1 col-xs-1"></div>
+  <div class="col-md-8 col-sm-10 col-xs-10">
+    <%= simple_form_for(@user_settings) do |f| %>
+      <%= f.error_notification %>
+
+      <h3>Pivotal Tracker</h3>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= f.input :tracker_full_name, :label => "Full Name", :hint => "As displayed in Pivotal Tracker history", :required => true, :autofocus => true %>
+          <%= f.input :tracker_api_token, :label => "API Token", :required => true %>
+        </div>
+      </div>
+
+      <h3>Harvest</h3>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= f.input :harvest_organization, :label => "Organization", :required => true %>
+          <%= f.input :harvest_username, :label => "Username", :required => true %>
+          <%= f.input :harvest_password, :hint => @user_settings.new_record? ? "" : "Enter a new password if you'd like to change what was previously stored", :label => "Password", :required => @user_settings.new_record? %>
+        </div>
+      </div>
+
+      <h3>Project Mapping</h3>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= f.simple_fields_for :project_mappings do |m| %>
+            <%= m.input :external_project_id, :label => "Pivotal Tracker Project ID", :required => true %>
+            <%= m.input :harvest_project_id, :label => "Harvest Project ID", :hint => "In Harvest, Manage > Edit Project, the ID will be in the url", :required => true %>
+            <%= m.input :harvest_task_id, :label => "Harvest Task ID", :hint => "In Harvest, Manage > Edit Project, inspect a task to see the id in the markup", :required => true %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.button :submit, @user_settings.new_record? ? "Save" : "Update", class: "btn btn-primary pull-right" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-md-2 col-sm-1 col-xs-1"></div>
+</div>
