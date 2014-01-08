@@ -27,7 +27,9 @@
               %ul.list-group.stories
                 - stories = @stories.select{ |s| s[:date] == day }
                 - if stories.present?
-                  - existing_time = @existing_time.select{ |t| t[:spent_at] == day }.first
+                  - existing_time = @existing_time.select{ |t| t[:spent_at] == day }.first || {}
+                  %li.list-group-item
+                    =f.input_field :hours, placeholder: "hours", label: false, name: "time_entry[#{day}][hours]", value: existing_time[:hours_without_timer], class: "hours"
                   - if existing_time.present?
                     %li.list-group-item.existing-notes
                       .row
@@ -35,7 +37,7 @@
                           %strong Existing notes
                         .col-xs-6.col-sm-9
                           .options.pull-right
-                            - existing_time_name = "time_entry[existing][#{day}]"
+                            - existing_time_name = "time_entry[#{day}][existing]"
                             - radio_button_name = "#{existing_time_name}[action]"
                             %input{ type: "hidden", name: "#{existing_time_name}[id]", value: existing_time[:id] }
                             %input{ type: "hidden", name: "#{existing_time_name}[notes]", value: existing_time[:notes] }
@@ -58,8 +60,8 @@
                           %span= story[:id]
                           %strong= story[:name]
                         .col-xs-2.col-sm-1
-                          %input{ type: "checkbox", checked: true, name: "time_entry[new][#{day}][#{story[:id]}][checked]" }
-                          %input{ type: "hidden", name: "time_entry[new][#{day}][#{story[:id]}][name]", value: story[:name] }
+                          %input{ type: "checkbox", checked: true, name: "time_entry[#{day}][new][#{story[:id]}][checked]" }
+                          %input{ type: "hidden", name: "time_entry[#{day}][new][#{story[:id]}][name]", value: story[:name] }
                 - else
                   %li.list-group-item.no-stories No stories found
       .form-group

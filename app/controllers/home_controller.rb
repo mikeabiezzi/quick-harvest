@@ -28,28 +28,29 @@ class HomeController < ApplicationController
 
     time_entry = params[:time_entry]
 
-    time_entry[:new].each do |date_str, stories|
+    time_entry.each do |date_str, hash|
       date = date_str.to_date
-      new_notes = stories \
+      new_notes = hash[:new] \
         .select { |story_id, attrs| attrs[:checked] } \
         .map { |story_id, attrs| "#{story_id} #{attrs[:name]}" } \
         .join(", \n")
-      existing_entry = time_entry[:existing][date_str] rescue {}
+      existing_entry = hash[:existing] || {}
 
       notes = build_notes(new_notes, existing_entry[:notes], existing_entry[:action])
+      hours = hash[:hours]
 
       if(notes.present?)
         if(existing_entry.present?)
-          harvest.update_time_entry(existing_entry[:id], notes)
+          harvest.update_time_entry(existing_entry[:id], notes, hours)
         else
           mapping = settings.project_mappings.first
-          harvest.create_time_entry(date, notes,
+          harvest.create_time_entry(date, notes, hours,
             mapping.harvest_project_id, mapping.harvest_task_id)
         end
       end
     end
 
-    redirect_to :root
+    redirect_to :root, notice: "Your time has been updated!"
   end
 
 private
