@@ -1,32 +1,41 @@
 .row
   .col-md-2.col-sm-0.col-xs-0
   .col-md-8.col-sm-12.col-xs-12
-    %h1= @billing_period.target_date.strftime("%B")
-    - @billing_period.past_and_present_weeks.each do |week|
-      %table.table-bordered.calendar-week
-        %tbody
-          %tr
-            - week.each do |day|
-              - cell_class = "na" if !@billing_period.past_or_present_within_period?(day)
-              - cell_class = "today" if day == Date.today
-              %td{ :class => cell_class }
-                .today= "Today" if day == Date.today
-                .number= day.strftime("%e")
-                .day= day.strftime("%a")
-      %br
-      - @billing_period.past_and_present_days(week).each do |day|
-        .row
-          .col-md-3.col-sm-3.col-xs-0
-            %div.weekday= day.strftime("%A")
-            %div.calendar-day= day.strftime("%B #{day.day.ordinalize}")
-          .col-md-9.col-sm-9.col-xs-12
-            %ul.list-group.stories
-              - stories = @stories.select{ |s| s[:date] == day }
-              - if stories.present?
-                - stories.each do |story|
-                  %li.list-group-item
-                    %span.id= story[:id]
-                    %span.name= story[:name]
-              - else
-                %li.list-group-item.no-stories No stories found
+    = simple_form_for(:time_enty, method: 'post') do |f|
+      = f.error_notification
+      %h1= @billing_period.target_date.strftime("%B")
+      - @billing_period.past_and_present_weeks.each do |week|
+        %table.table-bordered.calendar-week
+          %tbody
+            %tr
+              - week.each do |day|
+                - cell_class = "na" if !@billing_period.past_or_present_within_period?(day)
+                - cell_class = "today" if day == Date.today
+                %td{ :class => cell_class }
+                  .today= "Today" if day == Date.today
+                  .number= day.strftime("%e")
+                  .day= day.strftime("%a")
+        %br
+        - @billing_period.past_and_present_days(week).each do |day|
+          .row
+            .col-md-3.col-sm-3.col-xs-0
+              %div.weekday= day.strftime("%A")
+              %div.calendar-day= day.strftime("%B #{day.day.ordinalize}")
+            .col-md-9.col-sm-9.col-xs-12
+              %ul.list-group.stories
+                - stories = @stories.select{ |s| s[:date] == day }
+                - if stories.present?
+                  - stories.each_with_index do |story|
+                    %li.list-group-item
+                      .row
+                        .col-xs-10.col-sm-11
+                          %span.id= story[:id]
+                          %span.name= story[:name]
+                        .col-xs-2.col-sm-1
+                          %input{ type: "checkbox", checked: true, name: "time_entry[#{day}][#{story[:id]}][checked]" }
+                          %input{ type: "hidden", name: "time_entry[#{day}][#{story[:id]}][name]", value: story[:name] }
+                - else
+                  %li.list-group-item.no-stories No stories found
+      .form-group
+        = f.button :submit, "Submit to Harvest", class: "btn btn-primary pull-right"
   .col-md-2.col-sm-0.col-xs-0
