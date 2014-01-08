@@ -7,13 +7,14 @@
     text-align: center;
 
     &.today {
-      color: darkblue;
+      background-color: lightyellow;
     }
 
     .today {
       font-size: .8em;
       font-weight: bold;
       height: .8em;
+      color: lightgrey;
     }
 
     &.na {
@@ -28,22 +29,26 @@
   }
 }
 
-.no-stories {
-  color: lightgrey;
-}
+.weeks-stories {
+  .weekday {
+    color: grey;
+    font-size: 1.8em;
+  }
 
-.weekday {
-  color: grey;
-  font-size: 1.8em;
-}
+  .calendar-day {
+    color: lightgrey;
+    margin: -.5em auto .2em .5em;
+  }
 
-.calendar-day {
-  color: lightgrey;
-  margin: -.5em auto .2em .5em;
-}
+  .today {
+    background-color: lightyellow;
+  }
 
-.stories {
-  .name {
+  .stories .name {
     font-weight: bold;
+  }
+
+  .no-stories {
+    color: lightgrey;
   }
 }

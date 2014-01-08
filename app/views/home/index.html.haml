@@ -17,10 +17,12 @@
                   .day= day.strftime("%a")
         %br
         - @billing_period.past_and_present_days(week).each do |day|
-          .row
+          .row.weeks-stories
             .col-md-3.col-sm-3.col-xs-0
-              %div.weekday= day.strftime("%A")
-              %div.calendar-day= day.strftime("%B #{day.day.ordinalize}")
+              %div.weekday
+                %span{ class: day == Date.today ? "today" : "" }= day.strftime("%A")
+              %div.calendar-day
+                %span{ class: day == Date.today ? "today" : "" }= day.strftime("%B #{day.day.ordinalize}")
             .col-md-9.col-sm-9.col-xs-12
               %ul.list-group.stories
                 - stories = @stories.select{ |s| s[:date] == day }
