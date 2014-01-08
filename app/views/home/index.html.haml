@@ -13,15 +13,20 @@
                 .today= "Today" if day == Date.today
                 .number= day.strftime("%e")
                 .day= day.strftime("%a")
+      %br
       - @billing_period.past_and_present_days(week).each do |day|
-        %h4.weekday= day.strftime("%A")
-        %ul.list-group.stories
-          - stories = @stories.select{ |s| s[:date] == day }
-          - if stories.present?
-            - stories.each do |story|
-              %li.list-group-item
-                %span.id= story[:id]
-                %span.name= story[:name]
-          - else
-            %li.list-group-item.no-stories No stories found
+        .row
+          .col-md-3.col-sm-3.col-xs-0
+            %div.weekday= day.strftime("%A")
+            %div.calendar-day= day.strftime("%B #{day.day.ordinalize}")
+          .col-md-9.col-sm-9.col-xs-12
+            %ul.list-group.stories
+              - stories = @stories.select{ |s| s[:date] == day }
+              - if stories.present?
+                - stories.each do |story|
+                  %li.list-group-item
+                    %span.id= story[:id]
+                    %span.name= story[:name]
+              - else
+                %li.list-group-item.no-stories No stories found
   .col-md-2.col-sm-0.col-xs-0

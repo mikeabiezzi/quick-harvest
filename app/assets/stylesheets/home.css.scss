@@ -31,8 +31,15 @@
 .no-stories {
   color: lightgrey;
 }
+
 .weekday {
   color: grey;
+  font-size: 1.8em;
+}
+
+.calendar-day {
+  color: lightgrey;
+  margin: -.5em auto .2em .5em;
 }
 
 .stories {
