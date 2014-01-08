@@ -6,12 +6,17 @@ class HomeController < ApplicationController
       redirect_to :new_user_setting
     else
       settings = current_user.user_setting
+      mapping = settings.project_mappings.first
       tracker = PivotalTrackerService.new(settings.tracker_api_token,
-        settings.project_mappings.first.external_project_id,
-        settings.tracker_full_name)
+        mapping.external_project_id, settings.tracker_full_name)
+      harvest = HarvestService.new( settings.harvest_organization,
+        settings.harvest_username, settings.harvest_password)
 
       @target_date = Date.today
       @billing_period = BillingPeriod.new(@target_date)
+      @existing_time =
+        harvest.retrieve_time_entry( @billing_period.past_and_present_days,
+          mapping.harvest_project_id, mapping.harvest_task_id)
       @stories = tracker.active_stories(@billing_period.past_and_present_days)
     end
   end
@@ -21,20 +26,46 @@ class HomeController < ApplicationController
     harvest = HarvestService.new( settings.harvest_organization,
       settings.harvest_username, settings.harvest_password)
 
-    params[:time_entry].each do |date_str, stories|
+    time_entry = params[:time_entry]
+
+    time_entry[:new].each do |date_str, stories|
       date = date_str.to_date
-      notes = stories \
+      new_notes = stories \
         .select { |story_id, attrs| attrs[:checked] } \
         .map { |story_id, attrs| "#{story_id} #{attrs[:name]}" } \
         .join(", \n")
+      existing_entry = time_entry[:existing][date_str] rescue {}
+
+      notes = build_notes(new_notes, existing_entry[:notes], existing_entry[:action])
 
       if(notes.present?)
-        mapping = settings.project_mappings.first
-        harvest.submit_time_entry(date, notes,
-          mapping.harvest_project_id, mapping.harvest_task_id)
+        if(existing_entry.present?)
+          harvest.update_time_entry(existing_entry[:id], notes)
+        else
+          mapping = settings.project_mappings.first
+          harvest.create_time_entry(date, notes,
+            mapping.harvest_project_id, mapping.harvest_task_id)
+        end
       end
     end
 
     redirect_to :root
+  end
+
+private
+
+  def build_notes(new_notes, existing_notes, action)
+    return new_notes unless existing_notes
+
+    case action
+    when "leave"
+      return existing_notes
+    when "add_to"
+      return "#{existing_notes}\n#{new_notes}"
+    when "replace"
+      return new_notes
+    else
+      raise "unexpected action #{action}"
+    end
   end
 end

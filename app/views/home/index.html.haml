@@ -1,6 +1,6 @@
 .row
-  .col-md-2.col-sm-0.col-xs-0
-  .col-md-8.col-sm-12.col-xs-12
+  .col-lg-2.col-md-1.col-sm-0.col-xs-0
+  .col-lg-8.col-md-10.col-sm-12.col-xs-12
     = simple_form_for(:time_enty, method: 'post') do |f|
       = f.error_notification
       %h1= @billing_period.target_date.strftime("%B")
@@ -12,32 +12,56 @@
                 - cell_class = "na" if !@billing_period.past_or_present_within_period?(day)
                 - cell_class = "today" if day == Date.today
                 %td{ :class => cell_class }
-                  .today= "Today" if day == Date.today
-                  .number= day.strftime("%e")
-                  .day= day.strftime("%a")
+                  %strong.today= "Today" if day == Date.today
+                  %strong.number= day.strftime("%e")
+                  %div= day.strftime("%a")
         %br
         - @billing_period.past_and_present_days(week).each do |day|
           .row.weeks-stories
-            .col-md-3.col-sm-3.col-xs-0
+            .col-lg-3.col-md-3.col-sm-3.col-xs-0
               %div.weekday
                 %span{ class: day == Date.today ? "today" : "" }= day.strftime("%A")
               %div.calendar-day
                 %span{ class: day == Date.today ? "today" : "" }= day.strftime("%B #{day.day.ordinalize}")
-            .col-md-9.col-sm-9.col-xs-12
+            .col-lg-9.col-md-9.col-sm-9.col-xs-12
               %ul.list-group.stories
                 - stories = @stories.select{ |s| s[:date] == day }
                 - if stories.present?
+                  - existing_time = @existing_time.select{ |t| t[:spent_at] == day }.first
+                  - if existing_time.present?
+                    %li.list-group-item.existing-notes
+                      .row
+                        .col-xs-6.col-sm-3
+                          %strong Existing notes
+                        .col-xs-6.col-sm-9
+                          .options.pull-right
+                            - existing_time_name = "time_entry[existing][#{day}]"
+                            - radio_button_name = "#{existing_time_name}[action]"
+                            %input{ type: "hidden", name: "#{existing_time_name}[id]", value: existing_time[:id] }
+                            %input{ type: "hidden", name: "#{existing_time_name}[notes]", value: existing_time[:notes] }
+                            %label
+                              %input{ type: :radio, name: radio_button_name, value: :leave, checked: true }
+                              Leave
+                            %label
+                              %input{ type: :radio, name: radio_button_name, value: :replace }
+                              Replace
+                            %label
+                              %input{ type: :radio, name: radio_button_name, value: :add_to }
+                              Add to
+                      .row
+                        .col-xs-12
+                          %span.note<= existing_time[:notes]
                   - stories.each_with_index do |story|
                     %li.list-group-item
                       .row
                         .col-xs-10.col-sm-11
-                          %span.id= story[:id]
-                          %span.name= story[:name]
+                          %span= story[:id]
+                          %strong= story[:name]
                         .col-xs-2.col-sm-1
-                          %input{ type: "checkbox", checked: true, name: "time_entry[#{day}][#{story[:id]}][checked]" }
-                          %input{ type: "hidden", name: "time_entry[#{day}][#{story[:id]}][name]", value: story[:name] }
+                          %input{ type: "checkbox", checked: true, name: "time_entry[new][#{day}][#{story[:id]}][checked]" }
+                          %input{ type: "hidden", name: "time_entry[new][#{day}][#{story[:id]}][name]", value: story[:name] }
                 - else
                   %li.list-group-item.no-stories No stories found
       .form-group
         = f.button :submit, "Submit to Harvest", class: "btn btn-primary pull-right"
-  .col-md-2.col-sm-0.col-xs-0
+  .col-lg-2.col-md-1.col-sm-0.col-xs-0
