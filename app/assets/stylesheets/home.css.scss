@@ -1,3 +1,12 @@
+.display-option {
+  margin-top: 3em;
+  font-weight: normal;
+
+  label {
+    font-weight: normal;
+  }
+}
+
 .calendar-week {
   width: 100%;
 
@@ -5,6 +14,16 @@
     width: 14.3%;
     padding: 0 0 3% 0;
     text-align: center;
+
+    .needs-entry {
+      background-color: blue;
+      height: 10px;
+      width: 10px;
+      border-radius: 5px;
+      float: right;
+      position: relative;
+      margin: -1em .3em 0 0;
+    }
 
     &.today {
       background-color: lightyellow;
@@ -28,10 +47,22 @@
   }
 }
 
+.doesnt-need-entry {
+  display: none;
+}
+
 .weeks-stories {
+  .badge {
+    margin-top: .6em;
+  }
+
   .weekday {
     color: grey;
     font-size: 1.8em;
+
+    .needs-entry {
+      color: blue;
+    }
   }
 
   .calendar-day {

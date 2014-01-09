@@ -3,32 +3,48 @@
   .col-lg-8.col-md-10.col-sm-12.col-xs-12
     = simple_form_for(:time_enty, method: 'post') do |f|
       = f.error_notification
-      %h1= @billing_period.target_date.strftime("%B")
+      .row
+        .col-xs-6
+          %h1= @billing_period.target_date.strftime("%B")
+        .col-xs-6
+          %label.display-option.pull-right
+            %input{ type: "checkbox", checked: true }
+            Only display days that need time entry
       - @billing_period.past_and_present_weeks.each do |week|
         %table.table-bordered.calendar-week
           %tbody
             %tr
               - week.each do |day|
+                - stories = @stories.select{ |s| s[:date] == day }
+                - existing_time = @existing_time.select{ |t| t[:spent_at] == day }.first || {}
+                - needs_entry = existing_time.empty? && stories.present?
                 - cell_class = "na" if !@billing_period.past_or_present_within_period?(day)
                 - cell_class = "today" if day == Date.today
                 %td{ :class => cell_class }
                   %strong.today= "Today" if day == Date.today
+                  - if needs_entry
+                    .needs-entry
                   %strong.number= day.strftime("%e")
                   %div= day.strftime("%a")
         %br
         - @billing_period.past_and_present_days(week).each do |day|
-          .row.weeks-stories
+          - stories = @stories.select{ |s| s[:date] == day }
+          - existing_time = @existing_time.select{ |t| t[:spent_at] == day }.first || {}
+          - doesnt_need_entry = existing_time.present? || stories.empty?
+          .row.weeks-stories{ class: doesnt_need_entry ? "doesnt-need-entry" : "" }
             .col-lg-3.col-md-3.col-sm-3.col-xs-0
+              - weekday_classes = []
+              - weekday_classes << "today" if day == Date.today
+              - weekday_classes << "needs-entry" unless doesnt_need_entry
               %div.weekday
-                %span{ class: day == Date.today ? "today" : "" }= day.strftime("%A")
+                %span{ class: weekday_classes }= day.strftime("%A")
               %div.calendar-day
                 %span{ class: day == Date.today ? "today" : "" }= day.strftime("%B #{day.day.ordinalize}")
             .col-lg-9.col-md-9.col-sm-9.col-xs-12
               %ul.list-group.stories
-                - stories = @stories.select{ |s| s[:date] == day }
                 - if stories.present?
-                  - existing_time = @existing_time.select{ |t| t[:spent_at] == day }.first || {}
                   %li.list-group-item
+                    .badge= stories.count
                     =f.input_field :hours, placeholder: "hours", label: false, name: "time_entry[#{day}][hours]", value: existing_time[:hours_without_timer], class: "hours"
                   - if existing_time.present?
                     %li.list-group-item.existing-notes
