@@ -1,6 +1,6 @@
 # TODO: This needs some specs bad..
 class BillingPeriod
-  attr_reader :weeks, :past_and_present_weeks, :target_date
+  attr_reader :weeks, :past_and_present_weeks, :target_date, :first_day, :last_day
 
   def initialize(date = Date.today)
     @target_date = date
@@ -29,6 +29,9 @@ class BillingPeriod
 
     @all_past_and_present_days =
       (first_day..last_day).select { |day| day <= Date.today }
+
+    @first_day = first_day
+    @last_day = last_day
   end
 
   def includes?(date)

@@ -5,7 +5,9 @@
       = f.error_notification
       .row
         .col-xs-6
-          %h1= @billing_period.target_date.strftime("%B")
+          %h1.pull-left= @billing_period.target_date.strftime("%B")
+          .semester.pull-left
+            = "#{@billing_period.first_day.day == 1 ? "first" : "second"} semester"
         .col-xs-6
           %label.display-option.pull-right
             %input{ type: "checkbox", checked: true }
