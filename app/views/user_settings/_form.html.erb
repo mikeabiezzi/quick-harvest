@@ -26,8 +26,8 @@
         <div class="panel-body">
           <%= f.simple_fields_for :project_mappings do |m| %>
             <%= m.input :external_project_id, :label => "Pivotal Tracker Project ID", :required => true %>
-            <%= m.input :harvest_project_id, :label => "Harvest Project ID", :hint => "In Harvest, Manage > Edit Project, the ID will be in the url", :required => true %>
-            <%= m.input :harvest_task_id, :label => "Harvest Task ID", :hint => "In Harvest, Manage > Edit Project, inspect a task to see the id in the markup", :required => true %>
+            <%= m.input :harvest_project_id, :label => "Harvest Project ID", :hint => "In Harvest > Reports, select a project and find the ID in the url", :required => true %>
+            <%= m.input :harvest_task_id, :label => "Harvest Task ID", :hint => "In Harvest > Reports, select a task and find the ID in the url", :required => true %>
           <% end %>
         </div>
       </div>
