@@ -50,7 +50,7 @@ class HomeController < ApplicationController
       end
     end
 
-    redirect_to :root, notice: "Your time has been updated!"
+    redirect_to :root, notice: "Your time has been entered into Harvest!"
   end
 
 private
