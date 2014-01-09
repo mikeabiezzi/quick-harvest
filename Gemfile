@@ -27,6 +27,8 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
+gem 'unicorn'
+
 
   # bundle exec rake doc:rails generates the API under doc/api.
 
@@ -75,8 +77,8 @@ group :development, :test do
 end
 
 group :production do
-  gem 'unicorn'
   gem 'pg'
+  gem 'rails_12factor'
 end
 
 group :test do
@@ -85,3 +87,4 @@ group :test do
   gem 'email_spec'
 end
 
+ruby "2.0.0"
