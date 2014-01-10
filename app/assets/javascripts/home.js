@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+  $('.main').load('/ .main');
+
   $('.display-option input').change(function() {
     if($(this).is(":checked")) {
       $('.doesnt-need-entry').hide();
@@ -10,4 +13,5 @@ $(document).ready(function() {
   $('form').submit(function(){
     $('input[type=submit]').prop('disabled', true);
   });
+
 });

@@ -4,6 +4,8 @@ class HomeController < ApplicationController
       redirect_to :user_session
     elsif !current_user.user_setting
       redirect_to :new_user_setting
+    elsif !request.xhr?
+      render :loading
     else
       settings = current_user.user_setting
       mapping = settings.project_mappings.first
