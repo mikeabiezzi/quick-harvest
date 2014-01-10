@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:mjezzi/pivotal-tracker-api.git
+  remote: git://github.com/mjezzi/pivotal-tracker-api.git
   revision: e23a69a2c45e990ae692d16b62b13de3c2b7886b
   specs:
     pivotal-tracker-api (0.1.0)

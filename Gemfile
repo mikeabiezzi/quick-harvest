@@ -50,7 +50,7 @@ gem 'haml-rails'
 gem 'sendgrid'
 gem 'simple_form'
 gem 'attr_encrypted'
-gem 'pivotal-tracker-api', git: "git@github.com:mjezzi/pivotal-tracker-api.git"
+gem 'pivotal-tracker-api', github: "mjezzi/pivotal-tracker-api"
 gem 'harvested'
 
 group :development do
