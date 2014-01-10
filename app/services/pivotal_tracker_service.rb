@@ -8,7 +8,8 @@ class PivotalTrackerService
   end
 
   def active_stories(dates)
-    recent_activities = PivotalService.activity(@project_id, 0, 1000)
+    occurred_after = (dates.min - 1.day).to_time.to_i
+    recent_activities = PivotalService.activity(@project_id, 0, occurred_after)
 
     users_recent_activities =
       recent_activities.select do |activity|
