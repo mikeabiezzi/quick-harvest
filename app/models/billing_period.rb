@@ -15,7 +15,7 @@ class BillingPeriod
         next_day = add_week(next_day)
       end
     else
-      first_day = date.beginning_of_month + 16.days
+      first_day = date.beginning_of_month + 15.days
       last_day = date.end_of_month
 
       next_day = first_day.beginning_of_week
