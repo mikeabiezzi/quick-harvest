@@ -14,12 +14,14 @@ class HomeController < ApplicationController
       harvest = HarvestService.new( settings.harvest_organization,
         settings.harvest_username, settings.harvest_password)
 
-      @target_date = Date.today
-      @billing_period = BillingPeriod.new(@target_date)
-      @existing_time =
-        harvest.retrieve_time_entry( @billing_period.past_and_present_days,
-          mapping.harvest_project_id, mapping.harvest_task_id)
-      @stories = tracker.active_stories(@billing_period.past_and_present_days)
+      Time.use_zone("Mountain Time (US & Canada)") do
+        @today = Time.zone.today
+        @billing_period = BillingPeriod.new(@today)
+        @existing_time =
+          harvest.retrieve_time_entry( @billing_period.past_and_present_days,
+            mapping.harvest_project_id, mapping.harvest_task_id)
+        @stories = tracker.active_stories(@billing_period.past_and_present_days)
+      end
     end
   end
 

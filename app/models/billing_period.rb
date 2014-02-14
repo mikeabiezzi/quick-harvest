@@ -2,8 +2,9 @@
 class BillingPeriod
   attr_reader :weeks, :past_and_present_weeks, :target_date, :first_day, :last_day
 
-  def initialize(date = Date.today)
+  def initialize(date = Time.zone.today)
     @target_date = date
+    @today = Time.zone.today
 
     @weeks = []
     if(date.day <= 15)
@@ -25,10 +26,10 @@ class BillingPeriod
     end
 
     @past_and_present_weeks =
-      @weeks.select { |week| week.first <= Date.today}
+      @weeks.select { |week| week.first <= @today}
 
     @all_past_and_present_days =
-      (first_day..last_day).select { |day| day <= Date.today }
+      (first_day..last_day).select { |day| day <= @today }
 
     @first_day = first_day
     @last_day = last_day
@@ -43,12 +44,12 @@ class BillingPeriod
   end
 
   def past_or_present_within_period?(date)
-    includes?(date) && date <= Date.today
+    includes?(date) && date <= @today
   end
 
   def past_and_present_days(week = nil)
     if(week)
-      week.select{ |day| includes?(day) && day <= Date.today}
+      week.select{ |day| includes?(day) && day <= @today}
     else
       @all_past_and_present_days
     end

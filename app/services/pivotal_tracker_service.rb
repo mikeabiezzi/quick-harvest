@@ -15,12 +15,12 @@ class PivotalTrackerService
       recent_activities.select do |activity|
         activity[:message] =~ /#{@name}/ &&
           activity[:message] =~ /completed task|started|finished/ &&
-          dates.include?(DateTime.parse(activity[:occurred_at]).to_date)
+          dates.include?(Time.zone.parse(activity[:occurred_at]).to_date)
       end
 
     users_recent_activities.map do |activity|
       activity[:primary_resources].map { |x| {
-        date: DateTime.parse(activity[:occurred_at]).to_date,
+        date: Time.zone.parse(activity[:occurred_at]).to_date,
         id: x[:id], name: x[:name] } }
     end \
     .flatten \
