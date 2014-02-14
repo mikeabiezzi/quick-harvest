@@ -14,7 +14,7 @@ class PivotalTrackerService
     users_recent_activities =
       recent_activities.select do |activity|
         activity[:message] =~ /#{@name}/ &&
-          activity[:message] =~ /completed task|started|finished/ &&
+          activity[:message] =~ /completed task|started|accepted.*chore|finished/ &&
           dates.include?(Time.zone.parse(activity[:occurred_at]).to_date)
       end
 
