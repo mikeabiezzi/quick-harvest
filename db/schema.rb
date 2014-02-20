@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140106171018) do
+ActiveRecord::Schema.define(version: 20140220003618) do
 
   create_table "project_mappings", force: true do |t|
     t.integer  "user_setting_id",     null: false
@@ -23,17 +23,18 @@ ActiveRecord::Schema.define(version: 20140106171018) do
   end
 
   create_table "user_settings", force: true do |t|
-    t.integer  "user_id",                                                 null: false
-    t.string   "encrypted_tracker_full_name",                             null: false
-    t.string   "encrypted_tracker_api_token",                             null: false
-    t.string   "encrypted_harvest_organization",                          null: false
-    t.string   "encrypted_harvest_username",                              null: false
-    t.string   "encrypted_harvest_password",                              null: false
-    t.string   "output",                         default: "multi_line",   null: false
-    t.string   "style",                          default: "story_number", null: false
-    t.boolean  "comma_deliminated",              default: false,          null: false
+    t.integer  "user_id",                                                   null: false
+    t.string   "encrypted_tracker_full_name",                               null: false
+    t.string   "encrypted_tracker_api_token",                               null: false
+    t.string   "encrypted_harvest_organization",                            null: false
+    t.string   "encrypted_harvest_username",                                null: false
+    t.string   "encrypted_harvest_password",                                null: false
+    t.string   "output",                           default: "multi_line",   null: false
+    t.string   "style",                            default: "story_number", null: false
+    t.boolean  "comma_deliminated",                default: false,          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "encrypted_tracker_pair_full_name"
   end
 
   create_table "users", force: true do |t|

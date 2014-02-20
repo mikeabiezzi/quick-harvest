@@ -1,7 +1,7 @@
 # TODO: This needs some specs bad..
 class PivotalTrackerService
-  def initialize(token, project_id, name)
-    @name = name
+  def initialize(token, project_id, names)
+    @name = names.reject{ |n| n.blank? }.join("|")
     @project_id = project_id
 
     PivotalService.set_token(token)

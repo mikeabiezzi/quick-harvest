@@ -8,6 +8,7 @@
       <div class="panel panel-default">
         <div class="panel-body">
           <%= f.input :tracker_full_name, :label => "Full Name", :hint => "As displayed in Pivotal Tracker history", :required => true, :autofocus => true %>
+          <%= f.input :tracker_pair_full_name, :label => "Pair's Full Name", :hint => "As displayed in Pivotal Tracker history"  %>
           <%= f.input :tracker_api_token, :label => "API Token", :required => true %>
         </div>
       </div>

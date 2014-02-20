@@ -8,9 +8,10 @@ class HomeController < ApplicationController
       render :loading
     else
       settings = current_user.user_setting
+      names = [settings.tracker_full_name, settings.tracker_pair_full_name]
       mapping = settings.project_mappings.first
       tracker = PivotalTrackerService.new(settings.tracker_api_token,
-        mapping.external_project_id, settings.tracker_full_name)
+        mapping.external_project_id, names)
       harvest = HarvestService.new( settings.harvest_organization,
         settings.harvest_username, settings.harvest_password)
 

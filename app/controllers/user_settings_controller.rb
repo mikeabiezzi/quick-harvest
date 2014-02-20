@@ -46,6 +46,7 @@ private
       .permit(
         :user_id,
         :tracker_full_name,
+        :tracker_pair_full_name,
         :tracker_api_token,
         :harvest_organization,
         :harvest_username,

@@ -9,7 +9,7 @@ class UserSetting < ActiveRecord::Base
   has_many :project_mappings, dependent: :destroy
   accepts_nested_attributes_for :project_mappings
 
-  attr_encrypted :tracker_full_name, :tracker_api_token,
+  attr_encrypted :tracker_full_name, :tracker_pair_full_name, :tracker_api_token,
     :harvest_organization, :harvest_username, :harvest_password,
     :key => ENCRYPTION_KEY
 end
