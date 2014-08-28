@@ -1,3 +1,5 @@
+![Screenshot](/quick harvest.png?raw=true "screenshot")
+
 # WARNING
 
 This app was born from a hackfest, so basically any bad practice
