@@ -13,6 +13,8 @@ class HarvestService
       hours: hours,
       notes: notes)
     @harvest.time.create(time_entry)
+  rescue Harvest::InformHarvest => e
+    raise e unless e.message =~ /ApprovedHours/
   end
 
   def update_time_entry(id, notes, hours)
@@ -20,6 +22,8 @@ class HarvestService
     time_entry.notes = notes
     time_entry.hours = hours
     @harvest.time.update(time_entry)
+  rescue Harvest::InformHarvest => e
+    raise e unless e.message =~ /ApprovedHours/
   end
 
   def retrieve_time_entry(dates, project_id, task_id)
