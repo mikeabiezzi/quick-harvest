@@ -1,4 +1,10 @@
 class HomeController < ApplicationController
+  before_filter :no_cache
+
+  def no_cache
+    expires_now
+  end
+
   def index
     if !user_signed_in?
       redirect_to :user_session
